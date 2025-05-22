@@ -1,41 +1,44 @@
-
-// // app/blog/[slug]/page.js
+// // app/blog/[slug]/page.tsx
+// import { notFound } from "next/navigation";
 // import Image from "next/image";
 
-// const blogData = {
+// const blogData: Record<string,{ title: string; image: string; content: string }> = {
 //   roses: {
 //     title: "The Beauty of Roses",
 //     image: "/flowers/rose.jpg",
-//     content: `🌹 Roses are one of the most beloved flowers, known for their soft petals and romantic symbolism. They come in a variety of colors, with red roses representing love, white for purity, and yellow for friendship.
+//     content: `🌹 Roses are one of the most beloved flowers, known for their soft petals and romantic symbolism.
 
-// Roses are often used in perfumes, decorations, and celebrations due to their rich fragrance and visual appeal.`,
+// They come in a variety of colors:
+// - Red: Love
+// - White: Purity
+// - Yellow: Friendship
+
+// Roses are used in perfumes, decorations, and more.`,
 //   },
 //   sunflowers: {
 //     title: "Sunflowers and Their Charm",
 //     image: "/flowers/sunflower.jpg",
-//     content: `🌻 Sunflowers symbolize positivity, strength, and admiration. These flowers follow the sun throughout the day in a behavior called heliotropism.
+//     content: `🌻 Sunflowers symbolize positivity and admiration.
 
-// They are not only beautiful but also useful, producing edible seeds and oil. Sunflowers brighten up fields and bring smiles to faces.`,
+// They follow the sun in a behavior called heliotropism. They're beautiful **and** useful — providing seeds and oil.`,
 //   },
 //   tulips: {
 //     title: "All About Tulips",
 //     image: "/flowers/tulip.jpg",
-//     content: `🌷 Tulips bloom in spring and are known for their cup-shaped blossoms and vibrant colors. Originating in Central Asia, tulips became popular in Europe, especially the Netherlands.
+//     content: `🌷 Tulips bloom in spring and are loved for their cup-shaped blossoms.
 
-// They symbolize rebirth and love and are one of the most popular garden flowers in the world.`,
+// They symbolize rebirth and are especially popular in Dutch gardens.`,
 //   },
 // };
 
-// export default function BlogDetail({ params }) {
+// interface Props {
+//   params: { slug: string };
+// }
+
+// export default function BlogDetail({ params }: Props) {
 //   const blog = blogData[params.slug];
 
-//   if (!blog) {
-//     return (
-//       <div className="p-6 text-center text-red-600 font-bold text-xl">
-//         Blog not found 🌸
-//       </div>
-//     );
-//   }
+//   if (!blog) return notFound();
 
 //   return (
 //     <div className="p-4 md:p-8 max-w-3xl mx-auto bg-white rounded-xl shadow-lg mt-6">
@@ -54,11 +57,26 @@
 //   );
 // }
 
-// app/blog/[slug]/page.tsx
-import { notFound } from "next/navigation";
-import Image from "next/image";
 
-const blogData: Record<string,{ title: string; image: string; content: string }> = {
+// app/blog/[slug]/page.tsx
+import Image from "next/image";
+import { notFound } from "next/navigation";
+
+interface Props {
+  params: {
+    slug: string;
+  };
+}
+
+// Mock blog content using slug
+const blogData: Record<
+  string,
+  {
+    title: string;
+    image: string;
+    content: string;
+  }
+> = {
   roses: {
     title: "The Beauty of Roses",
     image: "/flowers/rose.jpg",
@@ -76,7 +94,7 @@ Roses are used in perfumes, decorations, and more.`,
     image: "/flowers/sunflower.jpg",
     content: `🌻 Sunflowers symbolize positivity and admiration.
 
-They follow the sun in a behavior called heliotropism. They're beautiful **and** useful — providing seeds and oil.`,
+They follow the sun in a behavior called heliotropism. They're beautiful and useful — providing seeds and oil.`,
   },
   tulips: {
     title: "All About Tulips",
@@ -87,14 +105,12 @@ They symbolize rebirth and are especially popular in Dutch gardens.`,
   },
 };
 
-interface Props {
-  params: { slug: string };
-}
-
-export default function BlogDetail({ params }: Props) {
+export default function BlogDetailPage({ params }: Props) {
   const blog = blogData[params.slug];
 
-  if (!blog) return notFound();
+  if (!blog) {
+    return notFound();
+  }
 
   return (
     <div className="p-4 md:p-8 max-w-3xl mx-auto bg-white rounded-xl shadow-lg mt-6">
