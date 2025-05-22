@@ -58,25 +58,12 @@
 // }
 
 
-// app/blog/[slug]/page.tsx
+// app/blog/[slug]/page.js
 import Image from "next/image";
 import { notFound } from "next/navigation";
 
-interface Props {
-  params: {
-    slug: string;
-  };
-}
-
-// Mock blog content using slug
-const blogData: Record<
-  string,
-  {
-    title: string;
-    image: string;
-    content: string;
-  }
-> = {
+// Blog content based on slug
+const blogData = {
   roses: {
     title: "The Beauty of Roses",
     image: "/flowers/rose.jpg",
@@ -105,7 +92,7 @@ They symbolize rebirth and are especially popular in Dutch gardens.`,
   },
 };
 
-export default function BlogDetailPage({ params }: Props) {
+export default function Page({ params }) {
   const blog = blogData[params.slug];
 
   if (!blog) {
